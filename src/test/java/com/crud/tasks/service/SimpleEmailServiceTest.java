@@ -22,18 +22,47 @@ class SimpleEmailServiceTest {
     private JavaMailSender javaMailSender;
 
     @Test
-    public void shouldSendEmail() {
+    public void shouldSendEmailWithoutCC() {
         //Given
-        Mail mail = new Mail("test@test.com", "Test", "Test Message");
+        Mail mail = Mail.builder()
+                .mailTo("test@test.com")
+                .subject("Test")
+                .message("Test Message")
+                .build();
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
+        if (mail.getToCC().isPresent()) {
+            mailMessage.setCc();
+        }
         //When
         simpleEmailService.send(mail);
         //Then
         verify(javaMailSender, times(1)).send(mailMessage);
     }
 
+    @Test
+    public void shouldSendEmailWithCC() {
+        //Given
+        Mail mail = Mail.builder()
+                .mailTo("test@test.com")
+                .subject("Test")
+                .message("Test Message")
+                .toCC("testCC@test.com")
+                .build();
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(mail.getMailTo());
+        mailMessage.setSubject(mail.getSubject());
+        mailMessage.setText(mail.getMessage());
+        if (mail.getToCC().isPresent()) {
+            mailMessage.setCc();
+        }
+        //When
+        simpleEmailService.send(mail);
+        //Then
+        verify(javaMailSender, times(1)).send(mailMessage);
+    }
 }
