@@ -34,9 +34,8 @@ class SimpleEmailServiceTest {
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
-        if (mail.getToCC().isPresent()) {
-            mailMessage.setCc();
-        }
+        mail.getToCC().ifPresent(mailMessage::setCc);
+
         //When
         simpleEmailService.send(mail);
         //Then
@@ -57,9 +56,7 @@ class SimpleEmailServiceTest {
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
-        if (mail.getToCC().isPresent()) {
-            mailMessage.setCc();
-        }
+        mail.getToCC().ifPresent(mailMessage::setCc);
         //When
         simpleEmailService.send(mail);
         //Then
