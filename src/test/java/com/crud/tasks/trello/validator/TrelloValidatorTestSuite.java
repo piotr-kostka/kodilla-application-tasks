@@ -53,9 +53,11 @@ public class TrelloValidatorTestSuite {
     @Test
     void validateCardTest() {
         //Given
-        TrelloCard trelloCard = new TrelloCard("card", "description", "position", "1");
+        TrelloCard trelloCard1 = new TrelloCard("card", "description", "position", "1");
+        TrelloCard trelloCard2 = new TrelloCard("test 2", "description 2", "top", "2");
 
         //When & Then
-        trelloValidator.validateCard(trelloCard);
+        trelloValidator.validateCard(trelloCard1);
+        trelloValidator.validateCard(trelloCard2);
     }
 }
