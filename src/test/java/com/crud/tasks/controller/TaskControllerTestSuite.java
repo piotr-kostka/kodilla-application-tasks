@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -82,6 +83,11 @@ class TaskControllerTestSuite {
     @Test
     void shouldDeleteTaskTest() throws Exception{
         //Given
+        Task task = new Task(1L, "Task_1", "Description_1");
+        TaskDto taskDto = new TaskDto(1L, "Task_1", "Description_1");
+
+        when(service.getTask(task.getId())).thenReturn(task);
+        when(taskMapper.mapToTaskDto(any(Task.class))).thenReturn(taskDto);
 
         //When & Then
         mockMvc
