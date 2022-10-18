@@ -1,6 +1,9 @@
 package com.crud.tasks.service;
 
+<<<<<<< HEAD
 import com.crud.tasks.config.AdminConfig;
+=======
+>>>>>>> master
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
