@@ -1,6 +1,7 @@
 package com.crud.tasks.service;
 
 import com.crud.tasks.domain.Mail;
+import com.crud.tasks.scheduler.EmailScheduler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ import org.springframework.stereotype.Service;
 public class SimpleEmailService {
 
     private final JavaMailSender javaMailSender;
+
+    private static final String SUBJECT_NEW_CARD = "Tasks: New Trello card";
+    private static final String SUBJECT_DAILY_MAIL = "Tasks: Once a day email";
 
     @Autowired
     private MailCreatorService mailCreatorService;
@@ -36,7 +40,11 @@ public class SimpleEmailService {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setSubject(mail.getSubject());
-            messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
+            if (mail.getSubject().equals(SUBJECT_NEW_CARD)) {
+                messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
+            } else if (mail.getSubject().equals(SUBJECT_DAILY_MAIL)) {
+                messageHelper.setText(mailCreatorService.buildDailyTaskQtyEmail(mail.getMessage()), true);
+            }
         };
     }
 

@@ -47,4 +47,18 @@ public class MailCreatorService {
 
         return templateEngine.process("mail/created-trello-card-mail", context);
     }
+
+    public String buildDailyTaskQtyEmail(String message) {
+        Context context = new Context();
+        context.setVariable("message", message);
+        context.setVariable("tasks_url", "https://piotr-kostka.github.io/");
+        context.setVariable("button", "Check your app!");
+        context.setVariable("show_button", true);
+        context.setVariable("admin_config", adminConfig);
+        context.setVariable("preview_message", "Welcome!");
+        context.setVariable("goodbye_message", "Have a good day!");
+        context.setVariable("company_config",companyConfig);
+
+        return templateEngine.process("mail/daily-tasks-qty-mail", context);
+    }
 }
